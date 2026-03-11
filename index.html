@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fresh & Tidy – Book a Service</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #F9F5ED; min-height: 100vh; }
+
+    .header { background: #2D6A4F; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { color: #E9C46A; font-size: 1.4rem; font-weight: bold; letter-spacing: 0.05em; }
+    .header-sub { color: rgba(255,255,255,0.7); font-size: 0.75rem; letter-spacing: 0.15em; margin-top: 2px; }
+    .header-right { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
+
+    .progress-track { background: #D8F3DC; height: 6px; }
+    .progress-bar { background: #52B788; height: 100%; transition: width 0.4s ease; }
+
+    .step-labels { display: flex; justify-content: space-between; padding: 0.75rem 1.5rem; border-bottom: 1px solid #dde8e2; }
+    .step-label { font-size: 0.7rem; color: #6B7C74; letter-spacing: 0.05em; text-transform: uppercase; }
+    .step-label.active { color: #2D6A4F; font-weight: bold; }
+
+    .content { max-width: 600px; margin: 0 auto; padding: 2rem 1.5rem; }
+    h2 { color: #1B1F1E; font-size: 1.6rem; margin-bottom: 0.4rem; }
+    .subtitle { color: #6B7C74; margin-bottom: 2rem; font-size: 0.95rem; }
+
+    .card { background: #fff; border: 2px solid #dde8e2; border-radius: 1.2rem; padding: 1.2rem 1.5rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+    .card:hover { border-color: #52B788; box-shadow: 0 4px 16px rgba(45,106,79,0.1); }
+    .card.selected { background: #2D6A4F; border-color: #2D6A4F; box-shadow: 0 4px 20px rgba(45,106,79,0.2); }
+    .card-emoji { font-size: 2.2rem; }
+    .card-title { font-weight: bold; color: #1B1F1E; font-size: 1.05rem; }
+    .card.selected .card-title { color: #fff; }
+    .card-desc { color: #6B7C74; font-size: 0.85rem; margin-top: 2px; }
+    .card.selected .card-desc { color: rgba(255,255,255,0.75); }
+
+    .svc-card { background: #fff; border: 2px solid #dde8e2; border-radius: 1.2rem; padding: 1.2rem 1.5rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: flex-start; }
+    .svc-card:hover { border-color: #52B788; }
+    .svc-card.selected { background: #D8F3DC; border-color: #52B788; }
+    .svc-left { display: flex; gap: 0.8rem; align-items: center; }
+    .svc-icon { font-size: 1.8rem; }
+    .svc-name { font-weight: bold; color: #1B1F1E; }
+    .svc-desc { color: #6B7C74; font-size: 0.83rem; margin-top: 2px; }
+    .price-badge { background: #E9C46A; border-radius: 1rem; padding: 0.3rem 0.7rem; font-size: 0.75rem; color: #1B1F1E; font-weight: bold; white-space: nowrap; margin-left: 0.5rem; flex-shrink: 0; }
+
+    .field { margin-bottom: 1.2rem; }
+    label { display: block; color: #1B1F1E; font-weight: bold; font-size: 0.88rem; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    input, textarea { width: 100%; padding: 0.85rem 1rem; border-radius: 0.8rem; border: 1.5px solid #dde8e2; font-size: 0.95rem; font-family: Georgia, serif; background: #fff; outline: none; transition: border 0.2s; }
+    input:focus, textarea:focus { border-color: #52B788; }
+    textarea { resize: vertical; }
+
+    .payment-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 0.4rem; }
+    .pay-chip { background: #fff; color: #1B1F1E; border: 1.5px solid #dde8e2; border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; font-family: Georgia, serif; }
+    .pay-chip.selected { background: #2D6A4F; color: #fff; border-color: #2D6A4F; }
+
+    .btn-row { display: flex; gap: 1rem; margin-top: 2rem; }
+    .btn-primary { flex: 2; background: #2D6A4F; color: #fff; border: none; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; transition: background 0.2s; }
+    .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-primary:not(:disabled):hover { background: #235840; }
+    .btn-outline { flex: 1; background: transparent; color: #2D6A4F; border: 2px solid #2D6A4F; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; }
+    .btn-outline:hover { background: #D8F3DC; }
+    .btn-full { width: 100%; background: #2D6A4F; color: #fff; border: none; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; margin-top: 2rem; }
+    .btn-full:disabled { background: #ccc; cursor: not-allowed; }
+
+    .confirm-card { background: #fff; border-radius: 1.2rem; border: 1.5px solid #dde8e2; overflow: hidden; margin-bottom: 1.5rem; }
+    .confirm-header { background: #2D6A4F; padding: 1.2rem 1.5rem; }
+    .confirm-label { color: #E9C46A; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .confirm-svc-name { color: #fff; font-size: 1.2rem; font-weight: bold; }
+    .confirm-svc-desc { color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+    .confirm-price { color: #E9C46A; font-size: 0.9rem; margin-top: 0.4rem; font-weight: bold; }
+    .confirm-body { padding: 1.2rem 1.5rem; }
+    .confirm-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+    .confirm-row-label { color: #6B7C74; }
+    .confirm-row-value { color: #1B1F1E; font-weight: bold; text-align: right; max-width: 60%; }
+    .trust-box { background: #D8F3DC; border-radius: 1rem; padding: 0.9rem 1.2rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #2D6A4F; display: flex; gap: 0.5rem; }
+
+    .success-screen { min-height: 100vh; background: #2D6A4F; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .success-card { background: #fff; border-radius: 2rem; padding: 3rem 2rem; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .success-title { color: #2D6A4F; font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .success-msg { color: #6B7C74; margin-bottom: 1.5rem; line-height: 1.6; }
+    .success-note { background: #D8F3DC; border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #2D6A4F; }
+    .success-pay { color: #6B7C74; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .btn-reset { background: #2D6A4F; color: #fff; border: none; border-radius: 2rem; padding: 0.85rem 2.5rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; }
+
+    .download-banner { background: #1B1F1E; color: #fff; padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .download-banner-text { font-size: 0.82rem; color: rgba(255,255,255,0.8); }
+    .download-banner-text strong { color: #E9C46A; }
+    .btn-download { background: #E9C46A; color: #1B1F1E; border: none; border-radius: 2rem; padding: 0.55rem 1.3rem; font-size: 0.85rem; font-weight: bold; cursor: pointer; font-family: Georgia, serif; white-space: nowrap; }
+    .btn-download:hover { background: #f0d070; }
+
+    .footer { text-align: center; padding: 2rem 1rem; color: #6B7C74; font-size: 0.78rem; border-top: 1px solid #dde8e2; margin-top: 2rem; line-height: 1.8; }
+    .footer-green { color: #52B788; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- SUCCESS SCREEN -->
+<div id="success-screen" class="success-screen hidden">
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <h2 class="success-title">Booking Confirmed!</h2>
+    <p class="success-msg">Thank you, <strong id="s-name"></strong>! Your <strong id="s-service"></strong> is booked for <strong id="s-date"></strong> at <strong id="s-time"></strong>.</p>
+    <div class="success-note">We'll confirm via WhatsApp shortly. Our team will arrive with all supplies — no need to prepare anything! 🧺</div>
+    <p class="success-pay">Payment: <span id="s-payment"></span></p>
+    <button class="btn-reset" onclick="resetApp()">Book Another Service</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main-app">
+
+  <!-- Download Banner -->
+  <div class="download-banner">
+    <div class="download-banner-text">📲 Save this app to your phone — <strong>tap the button to download</strong></div>
+    <button class="btn-download" onclick="downloadApp()">⬇ Download App</button>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="header-logo">🧺 Fresh & Tidy</div>
+      <div class="header-sub">STUDENT SERVICES • MUKONO</div>
+    </div>
+    <div class="header-right">UCU Campus</div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-track">
+    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+  </div>
+
+  <!-- Step Labels -->
+  <div class="step-labels">
+    <div class="step-label active" id="lbl-0">1. Who Are You?</div>
+    <div class="step-label" id="lbl-1">2. Pick a Service</div>
+    <div class="step-label" id="lbl-2">3. Schedule</div>
+    <div class="step-label" id="lbl-3">4. Confirm</div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- STEP 0 -->
+    <div id="step-0">
+      <h2>Who are you booking for?</h2>
+      <p class="subtitle">We serve students, hospital staff, and day care centers across Mukono.</p>
+      <div class="card" id="seg-student" onclick="selectSegment('student')">
+        <div class="card-emoji">🎓</div>
+        <div><div class="card-title">UCU Student</div><div class="card-desc">Hostel rooms & personal laundry</div></div>
+      </div>
+      <div class="card" id="seg-hospital" onclick="selectSegment('hospital')">
+        <div class="card-emoji">🏥</div>
+        <div><div class="card-title">Mukono Hospital</div><div class="card-desc">Uniforms, linen & ward cleaning</div></div>
+      </div>
+      <div class="card" id="seg-daycare" onclick="selectSegment('daycare')">
+        <div class="card-emoji">🌸</div>
+        <div><div class="card-title">Day Care Center</div><div class="card-desc">Children's clothes & classroom cleaning</div></div>
+      </div>
+      <button class="btn-full" id="btn-seg-next" disabled onclick="goTo(1)">Continue →</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step-1" class="hidden">
+      <h2>Choose a service</h2>
+      <p class="subtitle">All services include collection & delivery — we come to you!</p>
+      <div id="service-cards"></div>
+      <div class="btn-row">
+        <button class="btn-outline" onclick="goTo(0)">← Back</button>
+        <button class="btn-primary" id="btn-svc-next" disabled onclick="goTo(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step-2" class="hidden">
+      <h2>Schedule & Details</h2>
+      <p class="subtitle">Tell us when and where, and how to reach you.</p>
+      <div class="field"><label>Your Name</label><input type="text" id="f-name" placeholder="e.g. Nabukenya Sarah" oninput="checkForm()"></div>
+      <div class="field"><label>WhatsApp / Phone Number</label><input type="tel" id="f-contact" placeholder="e.g. 0772 123 456" oninput="checkForm()"></div>
+      <div class="field"><label>Location / Room / Address</label><input type="text" id="f-location" placeholder="e.g. Block C, Room 14, UCU Hostel" oninput="checkForm()"></div>
+      <div class="field"><label>Preferred Date</label><input type="date" id="f-date" oninput="checkForm()"></div>
+      <div class="field"><label>Preferred Time</label><input type="time" id="f-time" oninput="checkForm()"></div>
+      <div class="field">
+        <label>Payment Method</label>
+        <div class="payment-row">
+          <button class="pay-chip" id="pay-mtn" onclick="selectPayment('mtn','MTN Mobile Money')">📱 MTN Mobile Money</button>
+          <button class="pay-chip" id="pay-airtel" onclick="selectPayment('airtel','Airtel Money')">📲 Airtel Money</button>
+          <button class="pay-chip" id="pay-cash" onclick="selectPayment('cash','Cash on Delivery')">💵 Cash on Delivery</button>
+        </div>
+      </div>
+      <div class="field"><label>Special Instructions (optional)</label><textarea id="f-notes" rows="3" placeholder="e.g. Fragrance-free detergent, or gate access code..."></textarea></div>
+      <div class="btn-row">
+        <button class="btn-outline" onclick="goTo(1)">← Back</button>
+        <button class="btn-primary" id="btn-form-next" disabled onclick="goTo(3)">Review Booking →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step-3" class="hidden">
+      <h2>Review & Confirm</h2>
+      <p class="subtitle">Please review your booking details before submitting.</p>
+      <div class="confirm-card">
+        <div class="confirm-header">
+          <div class="confirm-label">Booked Service</div>
+          <div class="confirm-svc-name" id="c-svc-name"></div>
+          <div class="confirm-svc-desc" id="c-svc-desc"></div>
+          <div class="confirm-price" id="c-svc-price"></div>
+        </div>
+        <div class="confirm-body" id="confirm-body"></div>
+      </div>
+      <div class="trust-box">
+        <span>🔒</span>
+        <span>Our team is ID-verified and trained. You'll receive a WhatsApp confirmation within 30 minutes of booking.</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-outline" onclick="goTo(2)">← Edit</button>
+        <button class="btn-primary" onclick="submitBooking()">✅ Confirm Booking</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Fresh & Tidy Student Services • Uganda Christian University, Mukono<br>
+    <span class="footer-green">📱 Book via WhatsApp • MTN & Airtel Money accepted</span>
+  </div>
+</div>
+
+<script>
+  const services = {
+    student: [
+      { id:"room", name:"Room Cleaning", desc:"Sweep, mop, dust & organise", price:"UGX 5,000 – 8,000", icon:"🧹" },
+      { id:"laundry", name:"Laundry Service", desc:"Wash, dry, iron, fold & return", price:"UGX 3,000 – 5,000", icon:"👕" },
+      { id:"combo", name:"Combined Package", desc:"Room cleaning + laundry (discounted)", price:"UGX 10,000 – 15,000", icon:"✨" },
+    ],
+    hospital: [
+      { id:"uniform", name:"Uniform Laundry", desc:"Scrubs, lab coats, nursing uniforms", price:"UGX 5,000 – 8,000", icon:"🥼" },
+      { id:"linen", name:"Bulk Linen", desc:"Bedsheets, blankets, pillowcases", price:"UGX 15,000 – 30,000", icon:"🛏️" },
+      { id:"ward", name:"Ward / Office Cleaning", desc:"Professional hygiene-grade cleaning", price:"UGX 20,000 – 50,000", icon:"🏨" },
+    ],
+    daycare: [
+      { id:"kids", name:"Children's Daily Laundry", desc:"Washed & returned labelled", price:"UGX 8,000 – 15,000", icon:"👶" },
+      { id:"bedding", name:"Weekly Bedding Clean", desc:"Nap mats & blankets cleaned", price:"UGX 20,000 – 40,000", icon:"🌙" },
+      { id:"classroom", name:"Classroom Cleaning", desc:"Floor & surface disinfection", price:"UGX 10,000 – 20,000", icon:"🏫" },
+    ]
+  };
+  const segmentLabels = { student:"UCU Student", hospital:"Mukono Hospital", daycare:"Day Care Center" };
+  let state = { step:0, segment:null, service:null, payment:null, paymentLabel:null };
+
+  function downloadApp() {
+    const html = document.documentElement.outerHTML;
+    const blob = new Blob([html], { type:'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'FreshTidy_BookingApp.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function goTo(n) {
+    document.getElementById('step-'+state.step).classList.add('hidden');
+    document.getElementById('step-'+n).classList.remove('hidden');
+    state.step = n;
+    updateProgress();
+    if (n===1) renderServices();
+    if (n===3) renderConfirm();
+  }
+
+  function updateProgress() {
+    document.getElementById('progress-bar').style.width = (state.step/3*100)+'%';
+    for(let i=0;i<4;i++) document.getElementById('lbl-'+i).classList.toggle('active',i===state.step);
+  }
+
+  function selectSegment(seg) {
+    state.segment = seg; state.service = null;
+    ['student','hospital','daycare'].forEach(s => document.getElementById('seg-'+s).classList.toggle('selected',s===seg));
+    document.getElementById('btn-seg-next').disabled = false;
+  }
+
+  function renderServices() {
+    const list = services[state.segment];
+    document.getElementById('service-cards').innerHTML = list.map(s=>`
+      <div class="svc-card${state.service?.id===s.id?' selected':''}" id="svc-${s.id}" onclick="selectService('${s.id}')">
+        <div class="svc-left"><span class="svc-icon">${s.icon}</span><div><div class="svc-name">${s.name}</div><div class="svc-desc">${s.desc}</div></div></div>
+        <div class="price-badge">${s.price}</div>
+      </div>`).join('');
+    document.getElementById('btn-svc-next').disabled = !state.service;
+  }
+
+  function selectService(id) {
+    state.service = services[state.segment].find(s=>s.id===id);
+    document.querySelectorAll('.svc-card').forEach(el=>el.classList.remove('selected'));
+    document.getElementById('svc-'+id).classList.add('selected');
+    document.getElementById('btn-svc-next').disabled = false;
+  }
+
+  function selectPayment(id,label) {
+    state.payment=id; state.paymentLabel=label;
+    ['mtn','airtel','cash'].forEach(p=>document.getElementById('pay-'+p).classList.toggle('selected',p===id));
+    checkForm();
+  }
+
+  function checkForm() {
+    const ok = document.getElementById('f-name').value.trim() &&
+               document.getElementById('f-contact').value.trim() &&
+               document.getElementById('f-location').value.trim() &&
+               document.getElementById('f-date').value &&
+               document.getElementById('f-time').value &&
+               state.payment;
+    document.getElementById('btn-form-next').disabled = !ok;
+  }
+
+  function renderConfirm() {
+    const svc = state.service;
+    document.getElementById('c-svc-name').textContent = svc.icon+' '+svc.name;
+    document.getElementById('c-svc-desc').textContent = svc.desc;
+    document.getElementById('c-svc-price').textContent = svc.price;
+    const rows = [
+      {label:'Client Type',value:segmentLabels[state.segment]},
+      {label:'Name',value:document.getElementById('f-name').value},
+      {label:'Contact',value:document.getElementById('f-contact').value},
+      {label:'Location',value:document.getElementById('f-location').value},
+      {label:'Date',value:document.getElementById('f-date').value},
+      {label:'Time',value:document.getElementById('f-time').value},
+      {label:'Payment',value:state.paymentLabel},
+    ];
+    const notes = document.getElementById('f-notes').value.trim();
+    if(notes) rows.push({label:'Notes',value:notes});
+    document.getElementById('confirm-body').innerHTML = rows.map(r=>`
+      <div class="confirm-row"><span class="confirm-row-label">${r.label}</span><span class="confirm-row-value">${r.value}</span></div>`).join('');
+  }
+
+  function submitBooking() {
+    document.getElementById('s-name').textContent = document.getElementById('f-name').value;
+    document.getElementById('s-service').textContent = state.service.name;
+    document.getElementById('s-date').textContent = document.getElementById('f-date').value;
+    document.getElementById('s-time').textContent = document.getElementById('f-time').value;
+    document.getElementById('s-payment').textContent = state.paymentLabel;
+    document.getElementById('main-app').classList.add('hidden');
+    document.getElementById('success-screen').classList.remove('hidden');
+  }
+
+  function resetApp() {
+    state = {step:0,segment:null,service:null,payment:null,paymentLabel:null};
+    ['student','hospital','daycare'].forEach(s=>document.getElementById('seg-'+s).classList.remove('selected'));
+    document.getElementById('btn-seg-next').disabled = true;
+    ['f-name','f-contact','f-location','f-date','f-time','f-notes'].forEach(id=>document.getElementById(id).value='');
+    ['mtn','airtel','cash'].forEach(p=>document.getElementById('pay-'+p).classList.remove('selected'));
+    document.getElementById('btn-form-next').disabled = true;
+    document.getElementById('progress-bar').style.width = '0%';
+    for(let i=0;i<4;i++) document.getElementById('lbl-'+i).classList.toggle('active',i===0);
+    for(let i=1;i<4;i++) document.getElementById('step-'+i).classList.add('hidden');
+    document.getElementById('step-0').classList.remove('hidden');
+    document.getElementById('success-screen').classList.add('hidden');
+    document.getElementById('main-app').classList.remove('hidden');
+  }
+</script>
+</body>
+</html>
