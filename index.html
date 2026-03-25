@@ -6,145 +6,150 @@
   <title>Fresh & Tidy – Book a Service</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Georgia, serif; background: #F9F5ED; min-height: 100vh; }
+    /* NEW COLORS: Fresh Aqua, Mint, and clean white backgrounds */
+    body { font-family: Georgia, serif; background: #F0F8FF; min-height: 100vh; padding-bottom: 60px; }
 
-    .header { background: #2D6A4F; padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-    .header-logo { color: #E9C46A; font-size: 1.4rem; font-weight: bold; letter-spacing: 0.05em; }
-    .header-sub { color: rgba(255,255,255,0.7); font-size: 0.75rem; letter-spacing: 0.15em; margin-top: 2px; }
-    .header-right { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
+    .header { background: #028090; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .header-logo { color: #F4A261; font-size: 1.5rem; font-weight: bold; letter-spacing: 0.05em; }
+    .header-sub { color: #E0F2F1; font-size: 0.8rem; letter-spacing: 0.15em; margin-top: 4px; text-transform: uppercase; font-weight: bold; }
+    .header-right { color: rgba(255,255,255,0.8); font-size: 0.85rem; font-weight: bold; background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 1rem; }
 
-    .progress-track { background: #D8F3DC; height: 6px; }
-    .progress-bar { background: #52B788; height: 100%; transition: width 0.4s ease; }
+    .progress-track { background: #E0F2F1; height: 6px; }
+    .progress-bar { background: #00C49A; height: 100%; transition: width 0.4s ease; }
 
-    .step-labels { display: flex; justify-content: space-between; padding: 0.75rem 1.5rem; border-bottom: 1px solid #dde8e2; }
-    .step-label { font-size: 0.7rem; color: #6B7C74; letter-spacing: 0.05em; text-transform: uppercase; }
-    .step-label.active { color: #2D6A4F; font-weight: bold; }
+    .step-labels { display: flex; justify-content: space-between; padding: 0.75rem 1.5rem; border-bottom: 1px solid #d0e8e6; background: #fff; }
+    .step-label { font-size: 0.7rem; color: #7CA5A6; letter-spacing: 0.05em; text-transform: uppercase; }
+    .step-label.active { color: #028090; font-weight: bold; }
 
     .content { max-width: 600px; margin: 0 auto; padding: 2rem 1.5rem; }
-    h2 { color: #1B1F1E; font-size: 1.6rem; margin-bottom: 0.4rem; }
-    .subtitle { color: #6B7C74; margin-bottom: 2rem; font-size: 0.95rem; }
+    h2 { color: #1B2A2A; font-size: 1.6rem; margin-bottom: 0.4rem; }
+    .subtitle { color: #4A6E6E; margin-bottom: 2rem; font-size: 0.95rem; }
 
-    .card { background: #fff; border: 2px solid #dde8e2; border-radius: 1.2rem; padding: 1.2rem 1.5rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
-    .card:hover { border-color: #52B788; box-shadow: 0 4px 16px rgba(45,106,79,0.1); }
-    .card.selected { background: #2D6A4F; border-color: #2D6A4F; box-shadow: 0 4px 20px rgba(45,106,79,0.2); }
+    .card { background: #fff; border: 2px solid #d0e8e6; border-radius: 1.2rem; padding: 1.2rem 1.5rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(2,128,144,0.05); }
+    .card:hover { border-color: #00C49A; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,196,154,0.15); }
+    .card.selected { background: #028090; border-color: #028090; box-shadow: 0 6px 20px rgba(2,128,144,0.25); }
     .card-emoji { font-size: 2.2rem; }
-    .card-title { font-weight: bold; color: #1B1F1E; font-size: 1.05rem; }
+    .card-title { font-weight: bold; color: #1B2A2A; font-size: 1.05rem; }
     .card.selected .card-title { color: #fff; }
-    .card-desc { color: #6B7C74; font-size: 0.85rem; margin-top: 2px; }
-    .card.selected .card-desc { color: rgba(255,255,255,0.75); }
+    .card-desc { color: #7CA5A6; font-size: 0.85rem; margin-top: 2px; }
+    .card.selected .card-desc { color: rgba(255,255,255,0.8); }
 
-    .svc-card { background: #fff; border: 2px solid #dde8e2; border-radius: 1.2rem; padding: 1.2rem 1.5rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: flex-start; }
-    .svc-card:hover { border-color: #52B788; }
-    .svc-card.selected { background: #D8F3DC; border-color: #52B788; }
+    .svc-card { background: #fff; border: 2px solid #d0e8e6; border-radius: 1.2rem; padding: 1.2rem 1.5rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: flex-start; }
+    .svc-card:hover { border-color: #00C49A; }
+    .svc-card.selected { background: #E0F2F1; border-color: #00C49A; }
     .svc-left { display: flex; gap: 0.8rem; align-items: center; }
     .svc-icon { font-size: 1.8rem; }
-    .svc-name { font-weight: bold; color: #1B1F1E; }
-    .svc-desc { color: #6B7C74; font-size: 0.83rem; margin-top: 2px; }
-    .price-badge { background: #E9C46A; border-radius: 1rem; padding: 0.3rem 0.7rem; font-size: 0.75rem; color: #1B1F1E; font-weight: bold; white-space: nowrap; margin-left: 0.5rem; flex-shrink: 0; }
+    .svc-name { font-weight: bold; color: #1B2A2A; }
+    .svc-desc { color: #4A6E6E; font-size: 0.83rem; margin-top: 2px; }
+    .price-badge { background: #F4A261; border-radius: 1rem; padding: 0.3rem 0.7rem; font-size: 0.75rem; color: #fff; font-weight: bold; white-space: nowrap; margin-left: 0.5rem; flex-shrink: 0; }
 
     .field { margin-bottom: 1.2rem; }
-    label { display: block; color: #1B1F1E; font-weight: bold; font-size: 0.88rem; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    input, textarea { width: 100%; padding: 0.85rem 1rem; border-radius: 0.8rem; border: 1.5px solid #dde8e2; font-size: 0.95rem; font-family: Georgia, serif; background: #fff; outline: none; transition: border 0.2s; }
-    input:focus, textarea:focus { border-color: #52B788; }
+    label { display: block; color: #1B2A2A; font-weight: bold; font-size: 0.88rem; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    input, textarea { width: 100%; padding: 0.85rem 1rem; border-radius: 0.8rem; border: 1.5px solid #d0e8e6; font-size: 0.95rem; font-family: Georgia, serif; background: #fff; outline: none; transition: border 0.2s; }
+    input:focus, textarea:focus { border-color: #00C49A; box-shadow: 0 0 0 3px rgba(0,196,154,0.1); }
     textarea { resize: vertical; }
 
     .payment-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 0.4rem; }
-    .pay-chip { background: #fff; color: #1B1F1E; border: 1.5px solid #dde8e2; border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; font-family: Georgia, serif; }
-    .pay-chip.selected { background: #2D6A4F; color: #fff; border-color: #2D6A4F; }
+    .pay-chip { background: #fff; color: #1B2A2A; border: 1.5px solid #d0e8e6; border-radius: 2rem; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; font-family: Georgia, serif; }
+    .pay-chip.selected { background: #028090; color: #fff; border-color: #028090; }
 
     .btn-row { display: flex; gap: 1rem; margin-top: 2rem; }
-    .btn-primary { flex: 2; background: #2D6A4F; color: #fff; border: none; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; transition: background 0.2s; }
-    .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
-    .btn-primary:not(:disabled):hover { background: #235840; }
-    .btn-outline { flex: 1; background: transparent; color: #2D6A4F; border: 2px solid #2D6A4F; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; }
-    .btn-outline:hover { background: #D8F3DC; }
-    .btn-full { width: 100%; background: #2D6A4F; color: #fff; border: none; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; margin-top: 2rem; }
-    .btn-full:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-primary { flex: 2; background: #00C49A; color: #fff; border: none; border-radius: 2rem; padding: 1rem; font-size: 1.05rem; font-weight: bold; cursor: pointer; font-family: Georgia, serif; transition: background 0.2s, transform 0.1s; }
+    .btn-primary:disabled { background: #a8d5cc; cursor: not-allowed; transform: none; }
+    .btn-primary:not(:disabled):hover { background: #00a884; transform: translateY(-2px); }
+    .btn-outline { flex: 1; background: transparent; color: #028090; border: 2px solid #028090; border-radius: 2rem; padding: 1rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; font-weight: bold; }
+    .btn-outline:hover { background: #E0F2F1; }
+    .btn-full { width: 100%; background: #00C49A; color: #fff; border: none; border-radius: 2rem; padding: 1rem; font-size: 1.05rem; font-weight: bold; cursor: pointer; font-family: Georgia, serif; margin-top: 2rem; transition: all 0.2s; }
+    .btn-full:disabled { background: #a8d5cc; cursor: not-allowed; }
+    .btn-full:not(:disabled):hover { background: #00a884; transform: translateY(-2px); }
 
-    .confirm-card { background: #fff; border-radius: 1.2rem; border: 1.5px solid #dde8e2; overflow: hidden; margin-bottom: 1.5rem; }
-    .confirm-header { background: #2D6A4F; padding: 1.2rem 1.5rem; }
-    .confirm-label { color: #E9C46A; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .confirm-card { background: #fff; border-radius: 1.2rem; border: 1.5px solid #d0e8e6; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .confirm-header { background: #028090; padding: 1.2rem 1.5rem; }
+    .confirm-label { color: #E0F2F1; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
     .confirm-svc-name { color: #fff; font-size: 1.2rem; font-weight: bold; }
-    .confirm-svc-desc { color: rgba(255,255,255,0.7); font-size: 0.85rem; }
-    .confirm-price { color: #E9C46A; font-size: 0.9rem; margin-top: 0.4rem; font-weight: bold; }
+    .confirm-svc-desc { color: rgba(255,255,255,0.8); font-size: 0.85rem; }
+    .confirm-price { color: #F4A261; font-size: 1rem; margin-top: 0.4rem; font-weight: bold; }
     .confirm-body { padding: 1.2rem 1.5rem; }
     .confirm-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
-    .confirm-row-label { color: #6B7C74; }
-    .confirm-row-value { color: #1B1F1E; font-weight: bold; text-align: right; max-width: 60%; }
-    .trust-box { background: #D8F3DC; border-radius: 1rem; padding: 0.9rem 1.2rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #2D6A4F; display: flex; gap: 0.5rem; }
+    .confirm-row-label { color: #7CA5A6; }
+    .confirm-row-value { color: #1B2A2A; font-weight: bold; text-align: right; max-width: 60%; }
+    .trust-box { background: #E0F2F1; border-radius: 1rem; padding: 0.9rem 1.2rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #028090; display: flex; gap: 0.5rem; align-items: center; }
 
-    .success-screen { min-height: 100vh; background: #2D6A4F; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .success-screen { min-height: 100vh; background: #028090; display: flex; align-items: center; justify-content: center; padding: 2rem; }
     .success-card { background: #fff; border-radius: 2rem; padding: 3rem 2rem; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
     .success-icon { font-size: 4rem; margin-bottom: 1rem; }
-    .success-title { color: #2D6A4F; font-size: 1.8rem; margin-bottom: 0.5rem; }
-    .success-msg { color: #6B7C74; margin-bottom: 1.5rem; line-height: 1.6; }
-    .success-note { background: #D8F3DC; border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #2D6A4F; }
-    .success-pay { color: #6B7C74; font-size: 0.85rem; margin-bottom: 1.5rem; }
-    .btn-reset { background: #2D6A4F; color: #fff; border: none; border-radius: 2rem; padding: 0.85rem 2.5rem; font-size: 1rem; cursor: pointer; font-family: Georgia, serif; }
+    .success-title { color: #028090; font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .success-msg { color: #4A6E6E; margin-bottom: 1.5rem; line-height: 1.6; }
+    .success-note { background: #E0F2F1; border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #028090; font-weight: bold; }
+    .success-pay { color: #7CA5A6; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .btn-reset { background: #00C49A; color: #fff; border: none; border-radius: 2rem; padding: 0.85rem 2.5rem; font-size: 1rem; font-weight: bold; cursor: pointer; font-family: Georgia, serif; }
 
-    .download-banner { background: #1B1F1E; color: #fff; padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .download-banner-text { font-size: 0.82rem; color: rgba(255,255,255,0.8); }
-    .download-banner-text strong { color: #E9C46A; }
-    .btn-download { background: #E9C46A; color: #1B1F1E; border: none; border-radius: 2rem; padding: 0.55rem 1.3rem; font-size: 0.85rem; font-weight: bold; cursor: pointer; font-family: Georgia, serif; white-space: nowrap; }
-    .btn-download:hover { background: #f0d070; }
+    /* --- NEW: QR CODE FLYER SECTION --- */
+    .qr-flyer-box { background: #fff; border: 2px dashed #00C49A; border-radius: 1rem; padding: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+    .qr-code-placeholder { width: 80px; height: 80px; background: #1B2A2A; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; font-weight: bold; font-family: monospace; text-align: center; font-size: 0.8rem; border: 4px solid #fff; outline: 2px solid #1B2A2A; }
+    .qr-text { flex: 1; }
+    .qr-text h4 { color: #028090; margin-bottom: 0.3rem; font-size: 1.1rem; }
+    .qr-text p { color: #7CA5A6; font-size: 0.85rem; line-height: 1.4; }
 
-    .footer { text-align: center; padding: 2rem 1rem; color: #6B7C74; font-size: 0.78rem; border-top: 1px solid #dde8e2; margin-top: 2rem; line-height: 1.8; }
-    .footer-green { color: #52B788; }
+    /* --- NEW: FLOATING QUICK RESPONSE BUTTON --- */
+    .floating-wa { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; padding: 0.8rem 1.2rem; border-radius: 2rem; text-decoration: none; font-family: sans-serif; font-weight: bold; box-shadow: 0 4px 15px rgba(37,211,102,0.4); z-index: 1000; transition: transform 0.2s; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; border: 2px solid #fff; }
+    .floating-wa:hover { transform: scale(1.05); }
+
+    .footer { text-align: center; padding: 2rem 1rem; color: #7CA5A6; font-size: 0.78rem; border-top: 1px solid #d0e8e6; margin-top: 2rem; line-height: 1.8; }
+    .footer-highlight { color: #028090; font-weight: bold; }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-<!-- SUCCESS SCREEN -->
+<a href="#" class="floating-wa" onclick="alert('This would open WhatsApp directly to your business number!')">
+  💬 Quick Chat
+</a>
+
 <div id="success-screen" class="success-screen hidden">
   <div class="success-card">
-    <div class="success-icon">✅</div>
+    <div class="success-icon">✨</div>
     <h2 class="success-title">Booking Confirmed!</h2>
     <p class="success-msg">Thank you, <strong id="s-name"></strong>! Your <strong id="s-service"></strong> is booked for <strong id="s-date"></strong> at <strong id="s-time"></strong>.</p>
-    <div class="success-note">We'll confirm via WhatsApp shortly. Our team will arrive with all supplies — no need to prepare anything! 🧺</div>
-    <p class="success-pay">Payment: <span id="s-payment"></span></p>
+    <div class="success-note">We'll confirm via WhatsApp shortly. Our team will arrive with all supplies — sit back and relax! 🧺</div>
+    <p class="success-pay">Payment Method: <span id="s-payment"></span></p>
+    
+    <div style="margin: 1.5rem 0; display: inline-block; padding: 10px; background: #f0f0f0; border-radius: 10px;">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=FreshAndTidyApp" alt="QR Code" width="100">
+      <p style="font-size: 0.7rem; color: #666; margin-top: 5px;">Scan to share app</p>
+    </div>
+
+    <br>
     <button class="btn-reset" onclick="resetApp()">Book Another Service</button>
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="main-app">
 
-  <!-- Download Banner -->
-  <!--<div class="download-banner">
-    <div class="download-banner-text">📲 Save this app to your phone — <strong>tap the button to download</strong></div>
-    <button class="btn-download" onclick="downloadApp()">⬇ Download App</button>
-  </div>##-->
-
-  <!-- Header -->
   <div class="header">
     <div>
       <div class="header-logo">🧺 Fresh & Tidy</div>
-      <div class="header-sub">STUDENT SERVICES • MUKONO</div>
+      <div class="header-sub">Fresh Clothes. Tidy Rooms. Happy Life.</div>
     </div>
-    <div class="header-right">UCU Campus</div>
+    <div class="header-right">MUKONO</div>
   </div>
 
-  <!-- Progress Bar -->
   <div class="progress-track">
     <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
   </div>
 
-  <!-- Step Labels -->
   <div class="step-labels">
-    <div class="step-label active" id="lbl-0">1. Who Are You?</div>
-    <div class="step-label" id="lbl-1">2. Pick a Service</div>
-    <div class="step-label" id="lbl-2">3. Schedule</div>
+    <div class="step-label active" id="lbl-0">1. Who?</div>
+    <div class="step-label" id="lbl-1">2. Service</div>
+    <div class="step-label" id="lbl-2">3. Details</div>
     <div class="step-label" id="lbl-3">4. Confirm</div>
   </div>
 
-  <!-- Content -->
   <div class="content">
 
-    <!-- STEP 0 -->
     <div id="step-0">
-      <h2>Who are you booking for?</h2>
-      <p class="subtitle">We serve students, hospital staff, and day care centers across Mukono.</p>
+      <h2>Who are we cleaning for?</h2>
+      <p class="subtitle">Select your category to see specialized services.</p>
       <div class="card" id="seg-student" onclick="selectSegment('student')">
         <div class="card-emoji">🎓</div>
         <div><div class="card-title">UCU Student</div><div class="card-desc">Hostel rooms & personal laundry</div></div>
@@ -157,10 +162,17 @@
         <div class="card-emoji">🌸</div>
         <div><div class="card-title">Day Care Center</div><div class="card-desc">Children's clothes & classroom cleaning</div></div>
       </div>
-      <button class="btn-full" id="btn-seg-next" disabled onclick="goTo(1)">Continue →</button>
+      <button class="btn-full" id="btn-seg-next" disabled onclick="goTo(1)">View Services →</button>
+
+      <div class="qr-flyer-box">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=FreshAndTidyApp" alt="QR Code" class="qr-code-placeholder">
+        <div class="qr-text">
+          <h4>Quick Response Scan</h4>
+          <p>Reading this on a flyer? Point your phone camera at the QR code to open this booking app instantly.</p>
+        </div>
+      </div>
     </div>
 
-    <!-- STEP 1 -->
     <div id="step-1" class="hidden">
       <h2>Choose a service</h2>
       <p class="subtitle">All services include collection & delivery — we come to you!</p>
@@ -171,10 +183,9 @@
       </div>
     </div>
 
-    <!-- STEP 2 -->
     <div id="step-2" class="hidden">
       <h2>Schedule & Details</h2>
-      <p class="subtitle">Tell us when and where, and how to reach you.</p>
+      <p class="subtitle">Tell us when, where, and how to reach you.</p>
       <div class="field"><label>Your Name</label><input type="text" id="f-name" placeholder="e.g. Nabukenya Sarah" oninput="checkForm()"></div>
       <div class="field"><label>WhatsApp / Phone Number</label><input type="tel" id="f-contact" placeholder="e.g. 0772 123 456" oninput="checkForm()"></div>
       <div class="field"><label>Location / Room / Address</label><input type="text" id="f-location" placeholder="e.g. Block C, Room 14, UCU Hostel" oninput="checkForm()"></div>
@@ -183,9 +194,9 @@
       <div class="field">
         <label>Payment Method</label>
         <div class="payment-row">
-          <button class="pay-chip" id="pay-mtn" onclick="selectPayment('mtn','MTN Mobile Money')">📱 MTN Mobile Money</button>
+          <button class="pay-chip" id="pay-mtn" onclick="selectPayment('mtn','MTN Mobile Money')">📱 MTN MoMo</button>
           <button class="pay-chip" id="pay-airtel" onclick="selectPayment('airtel','Airtel Money')">📲 Airtel Money</button>
-          <button class="pay-chip" id="pay-cash" onclick="selectPayment('cash','Cash on Delivery')">💵 Cash on Delivery</button>
+          <button class="pay-chip" id="pay-cash" onclick="selectPayment('cash','Cash on Delivery')">💵 Cash</button>
         </div>
       </div>
       <div class="field"><label>Special Instructions (optional)</label><textarea id="f-notes" rows="3" placeholder="e.g. Fragrance-free detergent, or gate access code..."></textarea></div>
@@ -195,13 +206,12 @@
       </div>
     </div>
 
-    <!-- STEP 3 -->
     <div id="step-3" class="hidden">
       <h2>Review & Confirm</h2>
-      <p class="subtitle">Please review your booking details before submitting.</p>
+      <p class="subtitle">Please double-check your booking details below.</p>
       <div class="confirm-card">
         <div class="confirm-header">
-          <div class="confirm-label">Booked Service</div>
+          <div class="confirm-label">Selected Service</div>
           <div class="confirm-svc-name" id="c-svc-name"></div>
           <div class="confirm-svc-desc" id="c-svc-desc"></div>
           <div class="confirm-price" id="c-svc-price"></div>
@@ -210,7 +220,7 @@
       </div>
       <div class="trust-box">
         <span>🔒</span>
-        <span>Our team is ID-verified and trained. You'll receive a WhatsApp confirmation within 30 minutes of booking.</span>
+        <span>Our team is ID-verified and professionally trained. You'll receive a rapid response via WhatsApp within minutes.</span>
       </div>
       <div class="btn-row">
         <button class="btn-outline" onclick="goTo(2)">← Edit</button>
@@ -221,8 +231,8 @@
   </div>
 
   <div class="footer">
-    Fresh & Tidy Student Services • Uganda Christian University, Mukono<br>
-    <span class="footer-green">📱 Book via WhatsApp • MTN & Airtel Money accepted</span>
+    <strong>Fresh & Tidy Services</strong> • Mukono, Uganda<br>
+    <span class="footer-highlight">Quick Response Guarantee • MTN & Airtel Accepted</span>
   </div>
 </div>
 
@@ -247,19 +257,6 @@
   const segmentLabels = { student:"UCU Student", hospital:"Mukono Hospital", daycare:"Day Care Center" };
   let state = { step:0, segment:null, service:null, payment:null, paymentLabel:null };
 
-  function downloadApp() {
-    const html = document.documentElement.outerHTML;
-    const blob = new Blob([html], { type:'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'FreshTidy_BookingApp.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
   function goTo(n) {
     document.getElementById('step-'+state.step).classList.add('hidden');
     document.getElementById('step-'+n).classList.remove('hidden');
@@ -267,6 +264,7 @@
     updateProgress();
     if (n===1) renderServices();
     if (n===3) renderConfirm();
+    window.scrollTo(0,0);
   }
 
   function updateProgress() {
@@ -341,6 +339,7 @@
     document.getElementById('s-payment').textContent = state.paymentLabel;
     document.getElementById('main-app').classList.add('hidden');
     document.getElementById('success-screen').classList.remove('hidden');
+    window.scrollTo(0,0);
   }
 
   function resetApp() {
@@ -356,6 +355,7 @@
     document.getElementById('step-0').classList.remove('hidden');
     document.getElementById('success-screen').classList.add('hidden');
     document.getElementById('main-app').classList.remove('hidden');
+    window.scrollTo(0,0);
   }
 </script>
 </body>
