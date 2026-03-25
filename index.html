@@ -99,7 +99,7 @@
 </head>
 <body>
 
-<a href="https://wa.me/+256788822146?text=Hello%20Fresh%20%26%20Tidy,%20I%20have%20a%20quick%20question!" target="_blank" class="floating-wa">
+<a href="https://wa.me/256788822146?text=Hello%20Fresh%20%26%20Tidy,%20I%20have%20a%20quick%20question!" target="_blank" class="floating-wa">
   💬 Quick Chat
 </a>
 
@@ -230,8 +230,7 @@
 </div>
 
 <script>
-  // Replace this with your actual Ugandan business WhatsApp number (e.g., 256770000000)
-  const BUSINESS_PHONE_NUMBER = "+256788822146"; 
+  const BUSINESS_PHONE_NUMBER = "256788822146"; 
 
   const services = {
     student: [
@@ -349,7 +348,7 @@
     if(notes) waMessage += `\n*Notes:* ${notes}\n`;
     
     // 3. Create the WhatsApp API Link
-    const waLink = `https://wa.me/${+256788822146}?text=${encodeURIComponent(waMessage)}`;
+    const waLink = `https://wa.me/${BUSINESS_PHONE_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
     // 4. Update success screen UI
     document.getElementById('s-name').textContent = name;
