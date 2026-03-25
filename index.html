@@ -6,7 +6,6 @@
   <title>Fresh & Tidy – Book a Service</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    /* NEW COLORS: Fresh Aqua, Mint, and clean white backgrounds */
     body { font-family: Georgia, serif; background: #F0F8FF; min-height: 100vh; padding-bottom: 60px; }
 
     .header { background: #028090; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -84,14 +83,12 @@
     .success-pay { color: #7CA5A6; font-size: 0.85rem; margin-bottom: 1.5rem; }
     .btn-reset { background: #00C49A; color: #fff; border: none; border-radius: 2rem; padding: 0.85rem 2.5rem; font-size: 1rem; font-weight: bold; cursor: pointer; font-family: Georgia, serif; }
 
-    /* --- NEW: QR CODE FLYER SECTION --- */
     .qr-flyer-box { background: #fff; border: 2px dashed #00C49A; border-radius: 1rem; padding: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
     .qr-code-placeholder { width: 80px; height: 80px; background: #1B2A2A; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; font-weight: bold; font-family: monospace; text-align: center; font-size: 0.8rem; border: 4px solid #fff; outline: 2px solid #1B2A2A; }
     .qr-text { flex: 1; }
     .qr-text h4 { color: #028090; margin-bottom: 0.3rem; font-size: 1.1rem; }
     .qr-text p { color: #7CA5A6; font-size: 0.85rem; line-height: 1.4; }
 
-    /* --- NEW: FLOATING QUICK RESPONSE BUTTON --- */
     .floating-wa { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; padding: 0.8rem 1.2rem; border-radius: 2rem; text-decoration: none; font-family: sans-serif; font-weight: bold; box-shadow: 0 4px 15px rgba(37,211,102,0.4); z-index: 1000; transition: transform 0.2s; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; border: 2px solid #fff; }
     .floating-wa:hover { transform: scale(1.05); }
 
@@ -102,25 +99,21 @@
 </head>
 <body>
 
-<a href="#" class="floating-wa" onclick="alert('This would open WhatsApp directly to your business number!')">
+<a href="https://wa.me/256700000000?text=Hello%20Fresh%20%26%20Tidy,%20I%20have%20a%20quick%20question!" target="_blank" class="floating-wa">
   💬 Quick Chat
 </a>
 
 <div id="success-screen" class="success-screen hidden">
   <div class="success-card">
     <div class="success-icon">✨</div>
-    <h2 class="success-title">Booking Confirmed!</h2>
-    <p class="success-msg">Thank you, <strong id="s-name"></strong>! Your <strong id="s-service"></strong> is booked for <strong id="s-date"></strong> at <strong id="s-time"></strong>.</p>
-    <div class="success-note">We'll confirm via WhatsApp shortly. Our team will arrive with all supplies — sit back and relax! 🧺</div>
-    <p class="success-pay">Payment Method: <span id="s-payment"></span></p>
+    <h2 class="success-title">Booking Sent!</h2>
+    <p class="success-msg">Thank you, <strong id="s-name"></strong>! Your request for <strong id="s-service"></strong> has been prepared.</p>
+    <div class="success-note">If WhatsApp didn't open automatically, please click the button below to send your Quick Response booking! 🧺</div>
     
-    <div style="margin: 1.5rem 0; display: inline-block; padding: 10px; background: #f0f0f0; border-radius: 10px;">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=FreshAndTidyApp" alt="QR Code" width="100">
-      <p style="font-size: 0.7rem; color: #666; margin-top: 5px;">Scan to share app</p>
-    </div>
-
+    <button class="btn-primary" id="btn-manual-wa" style="width:100%; margin-bottom: 1.5rem; background:#25D366;">📲 Send via WhatsApp</button>
+    
     <br>
-    <button class="btn-reset" onclick="resetApp()">Book Another Service</button>
+    <button class="btn-outline" onclick="resetApp()">Book Another Service</button>
   </div>
 </div>
 
@@ -167,7 +160,7 @@
       <div class="qr-flyer-box">
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=FreshAndTidyApp" alt="QR Code" class="qr-code-placeholder">
         <div class="qr-text">
-          <h4>Quick Response Scan</h4>
+          <h4>Quick Scan & Book</h4>
           <p>Reading this on a flyer? Point your phone camera at the QR code to open this booking app instantly.</p>
         </div>
       </div>
@@ -220,11 +213,11 @@
       </div>
       <div class="trust-box">
         <span>🔒</span>
-        <span>Our team is ID-verified and professionally trained. You'll receive a rapid response via WhatsApp within minutes.</span>
+        <span>Your booking details will be sent directly to our team via Quick Response WhatsApp for immediate confirmation.</span>
       </div>
       <div class="btn-row">
         <button class="btn-outline" onclick="goTo(2)">← Edit</button>
-        <button class="btn-primary" onclick="submitBooking()">✅ Confirm Booking</button>
+        <button class="btn-primary" onclick="submitBooking()">✅ Confirm & Send</button>
       </div>
     </div>
 
@@ -237,6 +230,9 @@
 </div>
 
 <script>
+  // Replace this with your actual Ugandan business WhatsApp number (e.g., 256770000000)
+  const BUSINESS_PHONE_NUMBER = "256700000000"; 
+
   const services = {
     student: [
       { id:"room", name:"Room Cleaning", desc:"Sweep, mop, dust & organise", price:"UGX 5,000 – 8,000", icon:"🧹" },
@@ -331,12 +327,43 @@
       <div class="confirm-row"><span class="confirm-row-label">${r.label}</span><span class="confirm-row-value">${r.value}</span></div>`).join('');
   }
 
+  // --- NEW INTEGRATED QUICK RESPONSE LOGIC ---
   function submitBooking() {
-    document.getElementById('s-name').textContent = document.getElementById('f-name').value;
+    // 1. Get all values
+    const name = document.getElementById('f-name').value;
+    const contact = document.getElementById('f-contact').value;
+    const loc = document.getElementById('f-location').value;
+    const date = document.getElementById('f-date').value;
+    const time = document.getElementById('f-time').value;
+    const notes = document.getElementById('f-notes').value.trim();
+
+    // 2. Format the Quick Response message for WhatsApp
+    let waMessage = `*NEW BOOKING: Fresh & Tidy* 🧺\n\n`;
+    waMessage += `*Service:* ${state.service.name}\n`;
+    waMessage += `*Category:* ${segmentLabels[state.segment]}\n`;
+    waMessage += `*Name:* ${name}\n`;
+    waMessage += `*Phone:* ${contact}\n`;
+    waMessage += `*Location:* ${loc}\n`;
+    waMessage += `*Date:* ${date} at ${time}\n`;
+    waMessage += `*Payment:* ${state.paymentLabel} (${state.service.price})\n`;
+    if(notes) waMessage += `\n*Notes:* ${notes}\n`;
+    
+    // 3. Create the WhatsApp API Link
+    const waLink = `https://wa.me/${BUSINESS_PHONE_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+    // 4. Update success screen UI
+    document.getElementById('s-name').textContent = name;
     document.getElementById('s-service').textContent = state.service.name;
-    document.getElementById('s-date').textContent = document.getElementById('f-date').value;
-    document.getElementById('s-time').textContent = document.getElementById('f-time').value;
-    document.getElementById('s-payment').textContent = state.paymentLabel;
+    
+    // Set fallback button link in case popup is blocked
+    document.getElementById('btn-manual-wa').onclick = function() {
+      window.open(waLink, '_blank');
+    };
+
+    // 5. Open WhatsApp Quick Response in a new tab immediately
+    window.open(waLink, '_blank');
+
+    // 6. Show the success screen on the main page
     document.getElementById('main-app').classList.add('hidden');
     document.getElementById('success-screen').classList.remove('hidden');
     window.scrollTo(0,0);
